@@ -1,14 +1,12 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Data.Entity;
 using System.Linq;
 using System.Net;
-using System.Web;
 using System.Web.Mvc;
 using CarmichaelUniversity.DAL;
 using CarmichaelUniversity.Models;
 using PagedList;
+using System.Data.Entity.Infrastructure;
 
 namespace CarmichaelUniversity.Controllers
 {
@@ -99,7 +97,7 @@ namespace CarmichaelUniversity.Controllers
                 }
 
             }
-            catch (DataException /* dex */)
+            catch (RetryLimitExceededException /* rex */)
             {
                 //Log the error (uncomment dex variable name and add a line here to write a log.
                 ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists see your system administrator.");
@@ -142,7 +140,7 @@ namespace CarmichaelUniversity.Controllers
 
                     return RedirectToAction("Index");
                 }
-                catch (DataException /* dex */)
+                catch (RetryLimitExceededException /* rex */)
                 {
                     //Log the error (uncomment dex variable name and add a line here to write a log.
                     ModelState.AddModelError("", "Unable to save changes. Try again, and if the problem persists, see your system administrator.");
@@ -181,7 +179,7 @@ namespace CarmichaelUniversity.Controllers
                 db.Students.Remove(student);
                 db.SaveChanges();
             }
-            catch (DataException/* dex */)
+            catch (RetryLimitExceededException /* rex */)
             {
                 //Log the error (uncomment dex variable name and add a line here to write a log.
                 return RedirectToAction("Delete", new { id = id, saveChangesError = true });
