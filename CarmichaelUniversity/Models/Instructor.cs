@@ -5,34 +5,33 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace CarmichaelUniversity.Models
 {
-    public class Student
+    public class Instructor
     {
         public int ID { get; set; }
+
         [Required]
-        [StringLength(50)]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$", ErrorMessage = "Last name must be capitalized and cannot contain spaces.")]
         [Display(Name = "Last Name")]
+        [StringLength(50)]
         public string LastName { get; set; }
+
         [Required]
-        [StringLength(50,ErrorMessage = "First name can not be more than 50 characters.")]
-        [RegularExpression(@"^[A-Z]+[a-zA-Z""'\s-]*$", ErrorMessage = "First name must be capitalized and cannot contain spaces.")]
         [Column("FirstName")]
         [Display(Name = "First Name")]
+        [StringLength(50)]
         public string FirstMidName { get; set; }
+
         [DataType(DataType.Date)]
         [DisplayFormat(DataFormatString = "{0:yyyy-MM-dd}", ApplyFormatInEditMode = true)]
-        [Display(Name = "Enrollment Date")]
-        public DateTime EnrollmentDate { get; set; }
+        [Display(Name = "Hire Date")]
+        public DateTime HireDate { get; set; }
 
         [Display(Name = "Full Name")]
         public string FullName
         {
-            get
-            {
-                return LastName + ", " + FirstMidName;
-            }
+            get { return (LastName + ", " + FirstMidName); }
         }
-        
-        public virtual ICollection<Enrollment> Enrollments { get; set; }
+
+        public virtual ICollection<Course> Courses { get; set; }
+        public virtual OfficeAssignment OfficeAssignment { get; set; }
     }
 }
